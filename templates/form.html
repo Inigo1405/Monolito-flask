@@ -6,26 +6,12 @@
  
 {% block contenido %}
 <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-        <h2>{{subtitulo}}</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{subtitulo}}</h2>
+        </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-      <img src="https://via.placeholder.com/330x250">
-    </div>
-    <div class="col-md-5">
-      <p>{{texto}}</p>
-    </div>
-    <div class="col-md-3">
-      <ul class="list-group">
-      {% for valor in lista %}
-        <li class="list-group-item"> {{ valor }}</li>
-      {% endfor %}
-      </ul>
-      <a href="#" class="btn btn-primary btn-block btn-lg">${{precio}}</a>
-    </div>
-  </div>
+    <form method="post" action="/login">
+       
 </div>
 {% endblock %}

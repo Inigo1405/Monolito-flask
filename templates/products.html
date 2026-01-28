@@ -1,0 +1,17 @@
+{% extends 'index.html'%}  {# Herencia #}
+{% block head %}
+    {{ super() }} {# Heredar el contenido del bloque padre #}
+    <link rel="stylesheet" href="{{url_for('.static', filename='css/style.css')}}"> {# Nuevo contenido del bloque #}
+{% endblock %}
+ 
+{% block contenido %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{subtitulo}}</h2>
+        </div>
+    </div>
+    <form method="post" action="/login">
+       
+</div>
+{% endblock %}
