@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import sqlite3
 
 app = Flask(__name__)
@@ -14,13 +14,16 @@ def base():
     conn = get_db_connection()
     products = conn.execute('SELECT * FROM Product').fetchall()
     conn.close()
-    print(products)
-    
-    return render_template('index.html', products=products)
+    return render_template('login.html', products=products)
 
 @app.post('/login')
 def login():
-    return render_template('login.html', subtitle="Login Page")
+    username = request.form.get('username')
+    password = request.form.get('password')
+    if username == 'admin' and password == 'password':
+        return render_template('form.html', subtitle="Ingresa un producto", name="Username")
+    else:
+        return render_template('login.html', error="Credenciales inválidas")
 
 @app.post('/form')
 def form():
@@ -32,6 +35,3 @@ def products():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-if __name__ == '__name__':
-    app.run(debug = True)
