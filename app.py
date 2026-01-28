@@ -12,11 +12,7 @@ def get_db_connection():
 
 @app.route('/')
 def base():
-    conn = get_db_connection()
-    products = conn.execute('SELECT * FROM Product').fetchall()
-    conn.close()
-    
-    return render_template('index.html', products=products)
+    return render_template('index.html')
 
 
 @app.post('/login')
@@ -29,14 +25,17 @@ def login():
         return render_template('login.html', error="Credenciales inválidas")
 
 
-@app.post('/form')
+@app.route('/form')
 def form():
     return render_template('form.html', name="Usuario")
 
 
-@app.post('/products')
+@app.route('/products')
 def products():
-    return render_template('products.html', name="Usuario")
+    conn = get_db_connection()
+    products = conn.execute('SELECT * FROM Product').fetchall()
+    conn.close()
+    return render_template('products.html', products=products)
 
 
 
