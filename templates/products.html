@@ -1,13 +1,17 @@
-{% extends 'base.html' %}
-
-{% block content %}
-    <h1>Productos</h1>
-    {% for product in products %}
-        <div class='post'>
-            <h2>{{ product['name_prod'] }}</h2>
-            <p>{{ product['price'] }}</p>
-            <p>{{ product['stock'] }}</p>
-            <p>{{ product['created'] }}</p>
+{% extends 'index.html'%}  {# Herencia #}
+{% block head %}
+    {{ super() }} {# Heredar el contenido del bloque padre #}
+    <link rel="stylesheet" href="{{url_for('.static', filename='css/style.css')}}"> {# Nuevo contenido del bloque #}
+{% endblock %}
+ 
+{% block contenido %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{subtitulo}}</h2>
         </div>
-    {% endfor %}
+    </div>
+    <form method="post" action="/login">
+       
+</div>
 {% endblock %}

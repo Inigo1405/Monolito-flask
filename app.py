@@ -44,7 +44,7 @@ def products():
     products = conn.execute('Select * from Product')
     conn.commit()
     conn.close()
-    return render_template('products.html',products=products, subtitulo="Listado de Productos" )
+    return render_template('products.html', products=products, subtitulo="Listado de Productos" )
 
 if __name__ == '__main__':
     app.run(debug=True)
