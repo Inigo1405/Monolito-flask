@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, url_for, flash, redirect
 
 
 app = Flask(__name__)
-
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
@@ -22,7 +21,12 @@ def base():
 
 @app.post('/login')
 def login():
-    return render_template('login.html', subtitle="Login Page")
+    username = request.form.get('username')
+    password = request.form.get('password')
+    if username == 'admin' and password == 'password':
+        return render_template('form.html', subtitle="Ingresa un producto", name="Username")
+    else:
+        return render_template('login.html', error="Credenciales inválidas")
 
 
 @app.post('/form')
