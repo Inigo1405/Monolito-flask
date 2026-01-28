@@ -1,14 +1,24 @@
-from flask import Flask, render_template
-from db import db
+import sqlite3
+from flask import Flask, render_template# from db import db
+
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///migrations.db'
+
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 
-db.init_app(app)
 
 @app.route('/')
 def base():
-    return render_template('index.html')
+    conn = get_db_connection()
+    products = conn.execute('SELECT * FROM Product').fetchall()
+    conn.close()
+    print(products)
+    
+    return render_template('index.html', products=products)
 
 @app.post('/login')
 def login():
@@ -18,3 +28,6 @@ def login():
 def home():
     return render_template('form.html')
 
+
+if __name__ == '__name__':
+    app.run(debug = True)
