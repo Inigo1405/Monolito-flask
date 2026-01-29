@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, session
 import sqlite3
+from flask import Flask, render_template, request, session, url_for, flash, redirect
+
 
 app = Flask(__name__)
 def get_db_connection():
@@ -26,6 +27,10 @@ def login():
 def logout():
     session.clear()
     return render_template('login.html', subtitulo="Iniciar Sesión")
+
+@app.route('/form')
+def form():
+    return render_template('form.html', name="Usuario")
 
 @app.get('/form')
 def form():
