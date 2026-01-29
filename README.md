@@ -1,9 +1,18 @@
 # Monolito-flask
 App web monolítica en Flask
 
-Desarrollar una aplicación web monolítica con Flask (frontend integrado con Jinja) que implemente un CRUD completo para la entidad Producto, incluyendo un login ficticio con sesión y persistencia en SQLite.
+# Link del repositorio
+https://github.com/Inigo1405/Monolito-flask
 
-## Requerimientos mínimos
+# Preguntas sobre la arquitectura monolítica
+¿Qué quedó más acoplado en el monolito?
+Todas las operaciones que se ejecutan de autenticación y escritura en la base de datos se ejecutan desde el mismo lugar que los servicios para realizar consultas simples sin la necesidad de permisos, restringiendo la adopción de la aplicación.
+
+¿Qué separarías primero si lo migraras a API/microservicio?
+Proponemos que se separe la interfaz del usuario del backend y base de datos ya que no deberíamos de permitir al usuario interferir con la lógica de negocio.
+
+¿Qué problemas surgen si dos equipos trabajan en paralelo en el mismo monolito?
+El problema principal que se presenta sean personas o agentes de IA es la cola de espera a que cada miembro termine una función, por la arquitectura monolítica todos implementan sus funciones en el mismo servicio. 
 
 ### Login ficticio (sesión)
 - Ruta `/login` (GET/POST) y `/logout`
