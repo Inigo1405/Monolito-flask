@@ -7,22 +7,33 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+app.secret_key = 'rbrt156we3f'
+
 @app.route('/')
 def base():
     return render_template('login.html', subtitulo="Iniciar Sesión")
 
 @app.post('/login')
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    if username == 'admin' and password == 'password':
-        return render_template('form.html', subtitulo="Ingresa un producto", name="Username")
+    session['username'] = request.form['username']
+    session['password'] = request.form['password']
+    if session['username'] == 'admin' and session['password'] == 'password':
+        return render_template('form.html', subtitulo="Formulario de Producto", nombre=session['username'], page='form')
     else:
-        return render_template('login.html', error="Credenciales inválidas")
+        return render_template('login.html', subtitulo="Iniciar Sesión")
+        
+@app.post('/logout')
+def logout():
+    session.clear()
+    return render_template('login.html', subtitulo="Iniciar Sesión")
 
 @app.get('/form')
 def form():
-    return render_template('form.html', name="Usuario")
+    try:
+        if session['username']:
+            return render_template('form.html', subtitulo="Formulario de Producto", nombre=session['username'], page='form')
+    except:
+        return render_template('login.html', subtitulo="Iniciar Sesión")
 
 @app.post('/form')
 def form_post():
@@ -31,16 +42,20 @@ def form_post():
     conn.execute('INSERT INTO Product (name_prod) VALUES (?)', (product_name,))
     conn.commit()
     conn.close()
-    return render_template('products.html', name="Usuario")
+    return render_template('products.html', subtitulo="Listado de Productos", nombre=session['username'], page='products')
 
 @app.get('/products')
 def products():
-
     conn = get_db_connection()
-    products = conn.execute('Select * from Product')
+    products = conn.execute('Select * from Product').fetchall()
     conn.commit()
     conn.close()
-    return render_template('products.html',products=products, subtitulo="Listado de Productos" )
+    return render_template('products.html',products=products, subtitulo="Listado de Productos", nombre=session['username'], page='products')
+
+#Mandar rutas inventadas
+@app.errorhandler(404)
+def no_route(e):
+    return render_template('login.html', subtitulo="Iniciar Sesión"), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

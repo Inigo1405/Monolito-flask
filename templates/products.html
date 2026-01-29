@@ -1,7 +1,7 @@
 {% extends 'index.html'%}  {# Herencia #}
 {% block head %}
     {{ super() }} {# Heredar el contenido del bloque padre #}
-    <link rel="stylesheet" href="{{url_for('.static', filename='css/style.css')}}"> {# Nuevo contenido del bloque #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> {# Nuevo contenido del bloque #}
 {% endblock %}
  
 {% block contenido %}
