@@ -11,7 +11,79 @@
             <h2>{{subtitulo}}</h2>
         </div>
     </div>
-    <form method="post" action="/login">
-       
+    
+    <!-- Mensajes Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <a href="{{ url_for('productos_crear') }}" class="btn btn-success">
+                + Nuevo Producto
+            </a>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Activo</th>
+                        <th>Fecha Creación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if productos %}
+                        {% for producto in productos %}
+                        <tr>
+                            <td>{{ producto['id'] }}</td>
+                            <td>{{ producto['name_prod'] }}</td>
+                            <td>${{ "%.2f"|format(producto['price'] if producto['price'] else 0) }}</td>
+                            <td>{{ producto['stock'] if producto['stock'] else 0 }}</td>
+                            <td>
+                                {% if producto['active'] %}
+                                    <span class="badge badge-success">Sí</span>
+                                {% else %}
+                                    <span class="badge badge-secondary">No</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ producto['created'] }}</td>
+                            <td>
+                                <a href="{{ url_for('productos_editar', id=producto['id']) }}" class="btn btn-sm btn-primary">
+                                    Editar
+                                </a>
+                                <form action="{{ url_for('productos_eliminar', id=producto['id']) }}" method="post" style="display: inline;" onsubmit="return confirm('¿Está seguro de eliminar este producto?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center">No hay productos registrados.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

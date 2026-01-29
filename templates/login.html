@@ -17,7 +17,22 @@
         <h2>{{subtitulo}}</h2>
     </div>
   </div>
-  <form method="post" action="/login">
+  
+  <!-- Mensajes Flash -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+          {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+          {% endfor %}
+      {% endif %}
+  {% endwith %}
+  
+  <form method="post" action="{{ url_for('login') }}">
     <div class="form-group">
       <label for="username">Usuario</label>
       <input type="text" class="form-control" id="username" name="username" placeholder="Ingrese su usuario">

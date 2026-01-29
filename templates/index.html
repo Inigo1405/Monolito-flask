@@ -23,16 +23,16 @@
         {% if page == 'form' %}
       <li class="nav-item active">
          {% else %}
-         <li class="nav-item"></li>
+         <li class="nav-item">
          {% endif %}
-       <a class="nav-link" href="{{ url_for('form') }}">Formulario</a>
+       <a class="nav-link" href="{{ url_for('productos_crear') }}">Nuevo Producto</a>
      </li>
       {% if page == 'products' %}
       <li class="nav-item active">
          {% else %}
-         <li class="nav-item"></li>
+         <li class="nav-item">
          {% endif %}
-        <a class="nav-link" href="{{ url_for('products') }}" onclick="">Productos</a>
+        <a class="nav-link" href="{{ url_for('productos_listar') }}">Productos</a>
       </li>
     </ul>
   </div>

@@ -4,7 +4,7 @@ CREATE TABLE Product (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name_prod TEXT NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    price REAL CHECK (stock >= 0),
-    stock REAL CHECK (stock >= 0),
+    price REAL DEFAULT 0 CHECK (price >= 0),
+    stock INTEGER DEFAULT 0 CHECK (stock >= 0),
     active BOOLEAN DEFAULT 1
 );
