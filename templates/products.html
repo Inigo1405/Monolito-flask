@@ -35,6 +35,7 @@
                     <th>Precio</th>
                     <th>Stock</th>
                     <th>Estado</th>
+                    <th>Categoría</th>
                     <th>Fecha Creación</th>
                     <th>Acciones</th>
                 </tr>
@@ -46,7 +47,7 @@
                             <td>#{{ producto['id'] }}</td>
                             <td>{{ producto['name_prod'] }}</td>
                             <td>${{ "%.2f"|format(producto['price']) }}</td>
-                            <td>{{ producto['stock'] }}</td>
+                            <td>{{ producto['stock'] | int }}</td>
                             <td>
                                 {% if producto['active'] %}
                                     <span class="badge badge-success">Activo</span>
@@ -54,6 +55,7 @@
                                     <span class="badge badge-secondary">Inactivo</span>
                                 {% endif %}
                             </td>
+                            <td>{{ producto['categoria'] }}</td>
                             <td>{{ producto['created'] }}</td>
                             <td>
                                 <a href="{{ url_for('productos_editar', id=producto['id']) }}" class="btn btn-sm btn-primary">

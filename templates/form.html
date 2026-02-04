@@ -47,11 +47,19 @@
                 
                 <div class="form-group">
                     <label for="stock">Stock *</label>
-                    <input type="number" min="0" class="form-control" id="stock" name="stock" 
-                           placeholder="0"
-                           value="{% if form_data %}{{ form_data.stock }}{% elif producto %}{{ producto['stock'] if producto['stock'] else 0 }}{% else %}0{% endif %}"
-                           required>
+                          <input type="number" min="0" class="form-control" id="stock" name="stock" 
+                              placeholder="0"
+                              value="{% if form_data %}{{ form_data.stock|int }}{% elif producto %}{{ producto['stock']|int if producto['stock'] else 0 }}{% else %}0{% endif %}"
+                              required>
                     <small class="form-text text-muted">Debe ser mayor o igual a 0.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="categoria">Categoria del Producto *</label>
+                    <input type="text" class="form-control" id="categoria" name="categoria" 
+                           placeholder="Ingrese la categoría del producto"
+                           value="{% if form_data %}{{ form_data.categoria }}{% elif producto %}{{ producto['categoria'] }}{% endif %}"
+                           required>
                 </div>
                 
                 <div class="form-group form-check">

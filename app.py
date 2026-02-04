@@ -87,6 +87,7 @@ def productos_crear():
         precio = request.form.get('precio', '')
         stock = request.form.get('stock', '')
         activo = request.form.get('activo') == 'on'
+        categoria = request.form.get('categoria')
         
         # Validaciones
         errores = []
@@ -117,13 +118,14 @@ def productos_crear():
                                    form_data={'nombre': request.form.get('nombre', ''),
                                               'precio': request.form.get('precio', ''),
                                               'stock': request.form.get('stock', ''),
+                                              'categoria': request.form.get('categoria'),
                                               'activo': activo})
         
         # Insertar en base de datos
         conn = get_db_connection()
         conn.execute(
-            'INSERT INTO Product (name_prod, price, stock, active) VALUES (?, ?, ?, ?)',
-            (nombre, precio, stock, 1 if activo else 0)
+            'INSERT INTO Product (name_prod, price, stock, active, categoria) VALUES (?, ?, ?, ?, ?)',
+            (nombre, precio, stock, 1 if activo else 0, categoria)
         )
         conn.commit()
         conn.close()
@@ -156,6 +158,7 @@ def productos_editar(id):
         precio = request.form.get('precio', '')
         stock = request.form.get('stock', '')
         activo = request.form.get('activo') == 'on'
+        categoria = request.form.get('categoria', '')
         
         # Validaciones
         errores = []
@@ -187,12 +190,13 @@ def productos_editar(id):
                                    form_data={'nombre': request.form.get('nombre', ''),
                                               'precio': request.form.get('precio', ''),
                                               'stock': request.form.get('stock', ''),
+                                              'categoria': request.form.get('categoria', ''),
                                               'activo': activo})
         
         # Actualizar en base de datos
         conn.execute(
-            'UPDATE Product SET name_prod = ?, price = ?, stock = ?, active = ? WHERE id = ?',
-            (nombre, precio, stock, 1 if activo else 0, id)
+            'UPDATE Product SET name_prod = ?, price = ?, stock = ?, active = ?, categoria = ? WHERE id = ?',
+            (nombre, precio, stock, 1 if activo else 0, categoria, id)
         )
         conn.commit()
         conn.close()
