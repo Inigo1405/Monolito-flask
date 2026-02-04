@@ -1,15 +1,9 @@
-{% extends 'index.html'%}  {# Herencia #}
-{% block head %}
-    {{ super() }} {# Heredar el contenido del bloque padre #}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> {# Nuevo contenido del bloque #}
-{% endblock %}
+{% extends 'index.html'%}
  
 {% block contenido %}
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h2>{{subtitulo}}</h2>
-        </div>
+    <div class="col-md-12 row">
+        <h2>{{subtitulo}}</h2>
     </div>
     
     <!-- Mensajes Flash -->
@@ -40,7 +34,6 @@
                            placeholder="Ingrese el nombre del producto"
                            value="{% if form_data %}{{ form_data.nombre }}{% elif producto %}{{ producto['name_prod'] }}{% endif %}"
                            required>
-                    <small class="form-text text-muted">Campo requerido.</small>
                 </div>
                 
                 <div class="form-group">

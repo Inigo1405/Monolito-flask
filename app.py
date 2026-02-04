@@ -8,7 +8,7 @@ app.secret_key = 'rbrt156we3f'
 
 # Credenciales de login chafas
 USUARIO = 'admin'
-PASSWORD = 'password'
+PASSWORD = 'admin'
 
 
 def get_db_connection():
@@ -28,8 +28,7 @@ def login_required(f):
     return decorated_function
 
 
-# =Login y Logout
-
+# Login y Logout
 @app.route('/')
 def base():
     if 'username' in session:
@@ -40,8 +39,8 @@ def base():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username', '')
-        password = request.form.get('password', '')
+        username = request.form.get('username')
+        password = request.form.get('password')
         
         if username == USUARIO and password == PASSWORD:
             session['username'] = username
@@ -49,12 +48,12 @@ def login():
             return redirect(url_for('productos_listar'))
         else:
             flash('Usuario o contraseña incorrectos.', 'danger')
-            return render_template('login.html', subtitulo="Iniciar Sesión")
+            return render_template('login.html')
     
     if 'username' in session:
         return redirect(url_for('productos_listar'))
     
-    return render_template('login.html', subtitulo="Iniciar Sesión")
+    return render_template('login.html')
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -64,9 +63,9 @@ def logout():
     return redirect(url_for('login'))
 
 
-# Crud de Productos
+#* CRUD de Productos
 
-# LISTAR - /productos
+# LISTAR
 @app.route('/productos')
 @login_required
 def productos_listar():
@@ -74,13 +73,12 @@ def productos_listar():
     productos = conn.execute('SELECT * FROM Product ORDER BY id DESC').fetchall()
     conn.close()
     return render_template('products.html', 
-                           productos=productos, 
-                           subtitulo="Listado de Productos", 
+                           productos=productos,
                            nombre=session['username'], 
                            page='products')
 
 
-# CREAR - /productos/nuevo
+# CREAR
 @app.route('/productos/nuevo', methods=['GET', 'POST'])
 @login_required
 def productos_crear():
@@ -97,15 +95,13 @@ def productos_crear():
             errores.append('El nombre es requerido.')
         
         try:
-            precio = float(precio)
-            if precio < 0:
+            if float(precio) < 0:
                 errores.append('El precio debe ser mayor o igual a 0.')
         except ValueError:
             errores.append('El precio debe ser un número válido.')
         
         try:
-            stock = int(stock)
-            if stock < 0:
+            if int(stock) < 0:
                 errores.append('El stock debe ser mayor o igual a 0.')
         except ValueError:
             errores.append('El stock debe ser un número entero válido.')
@@ -143,7 +139,7 @@ def productos_crear():
                            form_data=None)
 
 
-# EDITAR - /productos/<id>/editar
+# EDITAR
 @app.route('/productos/<int:id>/editar', methods=['GET', 'POST'])
 @login_required
 def productos_editar(id):
@@ -168,15 +164,13 @@ def productos_editar(id):
             errores.append('El nombre es requerido.')
         
         try:
-            precio = float(precio)
-            if precio < 0:
+            if float(precio) < 0:
                 errores.append('El precio debe ser mayor o igual a 0.')
         except ValueError:
             errores.append('El precio debe ser un número válido.')
         
         try:
-            stock = int(stock)
-            if stock < 0:
+            if int(stock) < 0:
                 errores.append('El stock debe ser mayor o igual a 0.')
         except ValueError:
             errores.append('El stock debe ser un número entero válido.')
@@ -215,7 +209,7 @@ def productos_editar(id):
                            form_data=None)
 
 
-# ELIMINAR - /productos/<id>/eliminar
+# ELIMINAR
 @app.route('/productos/<int:id>/eliminar', methods=['POST'])
 @login_required
 def productos_eliminar(id):
@@ -234,6 +228,7 @@ def productos_eliminar(id):
     flash('Producto eliminado exitosamente.', 'success')
     return redirect(url_for('productos_listar'))
 
+
 @app.route('/form')
 @login_required
 def form():
@@ -245,8 +240,8 @@ def form():
 def products():
     return redirect(url_for('productos_listar'))
 
-# Manejo de errores
 
+# Manejo de errores
 @app.errorhandler(404)
 def no_route(e):
     flash('Página no encontrada.', 'warning')
