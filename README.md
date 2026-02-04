@@ -1,32 +1,35 @@
 # Monolito-flask
 App web monolítica en Flask
 
+Desarrollar una aplicación web monolítica con Flask (frontend integrado con Jinja) que implemente un CRUD completo para la entidad Producto, incluyendo un login  ficticio con sesión y persistencia en SQLite
+
 # Link del repositorio
 https://github.com/Inigo1405/Monolito-flask
 
 # Preguntas sobre la arquitectura monolítica
-¿Qué quedó más acoplado en el monolito?
+### ¿Qué quedó más acoplado en el monolito?
 Todas las operaciones que se ejecutan de autenticación y escritura en la base de datos se ejecutan desde el mismo lugar que los servicios para realizar consultas simples sin la necesidad de permisos, restringiendo la adopción de la aplicación.
 
-¿Qué separarías primero si lo migraras a API/microservicio?
-Proponemos que se separe la interfaz del usuario del backend y base de datos ya que no deberíamos de permitir al usuario interferir con la lógica de negocio.
+### ¿Qué separarías primero si lo migraras a API/microservicio?
+Proponemos una separación por responsabilidades de cada uno de los bloques para mantener una mayor limpieza de arquitectura y una futura escalabilidad del sistema, separando el Front-end (UI/UX), el backend y la base de datos (SQLite) en microservicios independientes, lo que haría que el sistema sea menos propenso a caidas totales de este.
 
-¿Qué problemas surgen si dos equipos trabajan en paralelo en el mismo monolito?
-El problema principal que se presenta sean personas o agentes de IA es la cola de espera a que cada miembro termine una función, por la arquitectura monolítica todos implementan sus funciones en el mismo servicio. 
+### ¿Qué problemas surgen si dos equipos trabajan en paralelo en el mismo monolito?
+Surgen problemas en el control de veriones (Git) y en el trabajo colaborativo en el sistema, ya que al estar trabajando equipos en el mismo monolito progresivamente alguno de los equipos presentará problemas de migraciones al no estar a la par del otro y estar modificando el mismo monolito, lo que retrasaría la implementación de nuevas funcionalidades del sistema al estar reparando continuamente el sistema haciendo unicamente retrabajos.
 
-### Login ficticio (sesión)
-- Ruta `/login` (GET/POST) y `/logout`
-- Usuario/contraseña: `admin/admin`
-- Proteger rutas del CRUD: sin sesión, redirigir a `/login`
+## Acceso al sistema de Productos (Test)
+- Nombre de Usuario: `admin`
+- Contraseña: `admin`
+
 
 ### Entidad Producto (SQLite)
 | Campo   | Tipo          | Restricción       |
 |---------|---------------|-------------------|
 | id      | INTEGER       | autoincrement     |
-| nombre  | TEXT          | requerido         |
+| nombre  | TEXT          | not null          |
 | precio  | REAL          | >= 0              |
 | stock   | INTEGER       | >= 0              |
 | activo  | BOOLEAN       | true/false        |
+
 
 ### CRUD completo
 | Operación | Ruta                        | Método    |
@@ -36,11 +39,8 @@ El problema principal que se presenta sean personas o agentes de IA es la cola d
 | Editar    | `/productos/<id>/editar`    | GET/POST  |
 | Eliminar  | `/productos/<id>/eliminar`  | POST      |
 
-### Validaciones mínimas
-- `nombre` no vacío
-- `precio` y `stock` numéricos y no negativos
 
-## Instalación
+## Instalación e Inicio de Sistema
 
 ```bash
 # Crear entorno virtual
@@ -59,10 +59,5 @@ pip install -r requirements.txt
 python db_init.py
 
 # Ejecutar aplicación
-python app.py
+flask run
 ```
-
-## Acceso
-- URL: http://localhost:5000
-- Usuario: `admin`
-- Contraseña: `admin`
