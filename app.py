@@ -1,10 +1,24 @@
-from flask import Flask, redirect, url_for
-from routes.__init__ import blueprintA, blueprintB
+#Importar las librerías necesarias
+from flask import Flask
+from routes.auth_routes import login_bp
+from routes.products_routes import productos_bp
+from config import config
 
+
+# Establecer la configuración de la aplicación
+config = config()
+config.apply_config('development')
+
+
+# Crear la aplicación Flask
 app = Flask(__name__)
-app.register_blueprint(blueprintA)
-app.register_blueprint(blueprintB)
+app.config['SECRET_KEY'] = config.SECRET_KEY
+
+
+# Registrar los blueprints
+app.register_blueprint(login_bp)
+app.register_blueprint(productos_bp)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=config.DEBUG)

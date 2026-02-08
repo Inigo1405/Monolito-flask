@@ -21,7 +21,7 @@
     {% endwith %}
     
     <div class="row mb-3 col-md-12">
-        <a href="{{ url_for('productos_crear') }}" class="btn btn-success">
+        <a href="productos/nuevo" class="btn btn-success">
             + Nuevo Producto
         </a>
     </div>
@@ -58,12 +58,12 @@
                             <td>{{ producto['categoria'] }}</td>
                             <td>{{ producto['created'] }}</td>
                             <td>
-                                <a href="{{ url_for('productos_editar', id=producto['id']) }}" class="btn btn-sm btn-primary">
+                                <a href="/productos/editar/{{ producto['id'] }}" class="btn btn-sm btn-primary">
                                     Editar
                                 </a>
                                 <form 
                                     method="post" style="display: inline;" 
-                                    action="{{ url_for('productos_eliminar', id=producto['id']) }}" 
+                                    action="/productos/eliminar/{{ producto['id'] }}" 
                                     onsubmit="return confirm('¿Está seguro de eliminar este producto?');"
                                 >
                                     <button type="submit" class="btn btn-sm btn-danger">

@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS Product (
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     price REAL DEFAULT 0 CHECK (price >= 0),
     stock INTEGER DEFAULT 0 CHECK (stock >= 0),
-    active BOOLEAN DEFAULT 1
+    active BOOLEAN DEFAULT 1,
+    categoria VARCHAR(25) NOT NULL DEFAULT 'Escolar'
 );
 
 -- ALTER TABLE Product
