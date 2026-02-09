@@ -1,3 +1,5 @@
+import os
+
 class config():
     def __init__(self):
         self.SECRET_KEY = ''
@@ -7,7 +9,6 @@ class config():
         self.mode = 'production'
 
     def load_from_env(self):
-        import os
         self.SECRET_KEY = os.getenv('SECRET_KEY', 'your-secret-key-here-change-in-production')
         self.DB_PATH = os.getenv('DB_PATH', 'productos.db')
 

@@ -1,6 +1,8 @@
 from flask import session, render_template, flash, redirect, Blueprint, request
 from functools import wraps
 
+from services.auth_service import Authentication
+
 login_bp = Blueprint('auth', __name__,
                      template_folder='templates')
 
@@ -31,25 +33,23 @@ def login():
 
 @login_bp.post('/login')
 def login_post():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        
-        if username == "admin" and password == "admin":
-            session['username'] = username
-            flash('Inicio de sesión exitoso.', 'success')
-            return redirect('/productos')
-        else:
-            flash('Usuario o contraseña incorrectos.', 'danger')
-            return render_template('login.html')
+    auth = Authentication()
     
-    if 'username' in session:
+    username = request.form.get('username')
+    password = request.form.get('password')
+    
+    if auth.login(username, password):
+        flash('Inicio de sesión exitoso.', 'success')
         return redirect('/productos')
-
+    else:
+        flash('Usuario o contraseña incorrectos.', 'danger')
+        return render_template('login.html')
+    
 
 # Salir de la sesión
 @login_bp.route('/logout', methods=['GET', 'POST'])
 def logout():
-    session.clear()
+    auth = Authentication()
+    auth.logout()
     flash('Sesión cerrada correctamente.', 'info')
     return redirect('/login')
