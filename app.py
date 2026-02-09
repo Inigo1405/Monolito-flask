@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, session, url_for, flash, redi
 
 
 app = Flask(__name__)
-app.secret_key = 'rbrt156we3f'
+app.secret_key = 'rbrt156we3fg'
 
 # Credenciales de login chafas
 USUARIO = 'admin'
